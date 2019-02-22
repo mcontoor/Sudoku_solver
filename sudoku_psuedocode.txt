@@ -1,0 +1,84 @@
+Problem:
+We have 15 puzzles given. 
+We need to create a fully functional sudoku solver that runs from command line
+THe solver will solve the puzzle.
+We also need to verify the puzzle solved is correct solution or not
+
+Doing it for a 3x3 sudoku
+
+
+Pseudocode for solver:
+We have ONE mainGid and NINE subGrids. We have rows and columns
+
+1. Select a number between 1-9 to place in the mainGrid, for example: '1'
+2. Decide where to place it ? (position). It needs to be placed in a subGrid which does not have the selected number [i,e 2-9]. 
+    How?
+        - Check all rows OR all columns in the mainGrid to see which rows don't have selected number '1'. Mark those rows and select a subGrid.
+
+        - If there are multiple subGrids which have vacancies for '1' then select an vacant cell in a subGrid which doesn't contain '1' by 
+          checking the follwing conditions
+            
+            - If '1' is NOT possible in more than 1 rows AND OR 1 colummns of the mainGrid AND if there are multiple such subGrids 
+                    {
+                        then select one of the subGrids at random and fill the vacancy with '1' 
+                        OR fill all of them at ONCE and move to the next number i,e '2'.
+                    } 
+            - Else if '1' is possible in more than 1 rows AND OR 1 columns of the subGrid (i,e if there are more than one vacancies for '1' in a subGrid))
+                AND if there are multiple such subgrids 
+                    {
+                        then move onto the next number i.e '2' and repeat the process from step 1.  
+
+                    }
+            - Else if '1' is NOT possible in more than 1 rows AND OR 1 columns of the mainGrid AND if there is ONLY ONE such subGrid 
+                    {
+                        then select that subGrid and fill the vacancy with '1' and 
+                        then move on the next subGrid to fill the remaining vacancies in other subGrids with '1'
+
+                        if not then move on to the next number i.e '2' and repeat from step 2
+                    }
+3.  In the mean time, simultaneously check rows and columns of the mainGid
+
+            - if there is only ONE number (between 1-9) to be filled in a vacancy of a row or column of the mainGid
+                    {
+                        then fill in the vacancy with that number.
+                    }
+            - And if there is only ONE number (between 1-9) to be filled in a vacancy of a row or column of the subGrid
+                    {
+                        then fill in the vacancy with that number.
+                    }
+4.  If the number '9' is reached in this process then check whether all the numbers have been filled and that 
+                        there are no numbers which are repeating in any row or column of the mainGrid
+
+                        if up to '9' doesn't fill up the vacancies then go back to step #1 and repeat till all cell vacancies are full.
+
+                        if all cells are full then return (puzzle solved)
+
+
+
+            
+Reasoning: Check the rows and columns of the maingrid that are also part of the subgrid to see if there is '1' anywhere 
+                if there is '1' anywhere then move on to check other cells in the rows and columns of the maingrid that are also part
+                else if there are no '1' in more than one cell in the subgrid then go to that subgrid where '1' is possible in only 
+                    one of the cells the and then repeat process of placing another '1'
+                else it means that there is just one cell in the subgrid where '1' can be placed. So, place and move on.
+
+                if there are still subgrids with '1' left where there is chance of more than one unassigned cell to take the value of '1'
+                then move on the the next number i.e 2, so that you can come back to filling '1's later.
+
+                if there is a choice of selecting from two subgrids then stop the algorithm and move on to next number '2' and come back to it later.
+
+                if there is a choice of selecting from more than one subgrid AND more than one rows and colummns then try to select the subgrid with more
+                numbers filled in. If not move on to another number and come back 
+                to it later
+
+
+        - Eliminate the rows and columns of the subgrid and which are also part of the maingrid which have '1'
+
+        - Assign '1' to one of the remaining cells.
+
+Check the mainGrid everytime to see whether there are any rows, columns and subgrids which don't have a'1'
+Repeat placing '1' using above methods by checking the remaining rows, columns and subgrids until all the rows.
+
+
+
+
