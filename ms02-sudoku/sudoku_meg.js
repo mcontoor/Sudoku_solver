@@ -31,7 +31,7 @@ return array1;
 };
 
 var board = sudokuboard();
-console.log(board);
+//console.log(board);
 
 
 function saveEmptyPositions() {
@@ -47,47 +47,54 @@ function saveEmptyPositions() {
 };
 
 var emptyCells = saveEmptyPositions();
-console.log(emptyCells);
+//console.log(emptyCells);
 
-// var checkRow = function(board,row,value) {
-//   for (var i=0; i<board[row].length; i++) {
-//     if (board[row][i] === value) {
-//       return false;
-//     }
-//   }
-//   return true;
-// }
+var checkRow = function(board,row,value) {
+  for (var i=0; i<board[row].length; i++) {
+    if (board[row][i] === value) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+}
 
-// checkRow(board,0,1);
+console.log(checkRow(board,0,2));
 
-// var checkCol = function(board, column, value) {
-//   for (var j=0; j< board.length; j++) {
-//     if (board[j][column] === value) {
-//       return false;
-//     }
-//   }
-//   return true;
-// }
+var checkCol = function(board, column, value) {
+  for (var j=0; j< board.length; j++) {
+    if (board[j][column] === value) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+}
+console.log(checkCol(board,0,2))
 
-// var checkBlock = function(board, column, row, value) {
-//   var colCorner = 0.
-//       rowCorner = 0,
-//       squareSize = 3;
-//   while (column >= colCorner + squareSize) {
-//     colCorner += squareSize;
-//   }
-//   while (row >= rowCorner + squareSize) {
-//     rowCorner += squareSize;
-//   }
-//   for (var i = rowCorner; i<rowCorner + squareSize; i++) {
-//     for (var j = colCorner; j<colCorner + squareSize; j++) {
-//       if (board[i][j] === value) {
-//         return false;
-//       }
-//     }
-//   }
-//   return true;
-// }
+var checkBlock = function(board, column, row, value) {
+  var colCorner = 0.
+      rowCorner = 0,
+      squareSize = 3;
+  while (column >= colCorner + squareSize) {
+    colCorner += squareSize;
+  }
+  while (row >= rowCorner + squareSize) {
+    rowCorner += squareSize;
+  }
+  for (var i = rowCorner; i<rowCorner + squareSize; i++) {
+    for (var j = colCorner; j<colCorner + squareSize; j++) {
+      if (board[i][j] === value) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+console.log(checkBlock(board, 0, 0, 2));
 
 // var checkValue = function(board, column, row, value) {
 //   if(this.checkRow(board,row,value) &&
