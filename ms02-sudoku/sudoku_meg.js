@@ -16,7 +16,7 @@ var p1 = "1-58-2----9--764-52--4--819-19--73-6762-83-9-----61-5---76---3-43--2-5
 
 
 
-var sudokustring = p1.split("").map(Number);
+var sudokustring = p1.split("");
 
 function sudokuboard() {
   var array1 = [];
@@ -37,16 +37,17 @@ console.log(board);
 function saveEmptyPositions() {
   var emptyPositions = [];
   for (var i=0; i<board.length; i++) {
-    for (var j=0; j<board[i].length; i++) {
-      if (board[i][j] === NaN) {
-        emptyPositions.push(i,j);
+    for (var j=0; j<board[i].length; j++) {
+      if (board[i][j] === '-') {
+        emptyPositions.push([i,j]);
       }
     }
   }
   return emptyPositions;
 };
 
-console.log(saveEmptyPositions());
+var emptyCells = saveEmptyPositions();
+console.log(emptyCells);
 
 // var checkRow = function(board,row,value) {
 //   for (var i=0; i<board[row].length; i++) {
