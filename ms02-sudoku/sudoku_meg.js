@@ -16,7 +16,8 @@ var p1 = "1-58-2----9--764-52--4--819-19--73-6762-83-9-----61-5---76---3-43--2-5
 
 
 
-var sudokustring = p1.split("");
+var sudokustring = p1.split("").map(function(x){return x.replace(/-/g, '0');}).map(Number);
+//console.log(sudokustring)
 
 function sudokuboard() {
   var array1 = [];
@@ -33,6 +34,7 @@ return array1;
 var board = sudokuboard();
 //console.log(board);
 
+// var resultArr = board.map(function(x){return x.replace(/'-'/g, '0');});
 
 function saveEmptyPositions() {
   var emptyPositions = [];
@@ -50,17 +52,16 @@ var emptyCells = saveEmptyPositions();
 //console.log(emptyCells);
 
 var checkRow = function(board,row,value) {
-  for (var i=0; i<board[row].length; i++) {
-    if (board[row][i] === value) {
-      return false;
+  for (var row=0; row<board.length; row++) {
+    for (var j=0; j<board[row].length; j++) {
+      if (board[row][j] === value) {
+        return false;
     }
-    else {
-      return true;
     }
   }
+  return true;
 }
-
-console.log(checkRow(board,0,2));
+//console.log(checkRow(board,0,1));
 
 var checkCol = function(board, column, value) {
   for (var j=0; j< board.length; j++) {
@@ -72,7 +73,7 @@ var checkCol = function(board, column, value) {
     }
   }
 }
-console.log(checkCol(board,0,2))
+//console.log(checkCol(board,0,1))
 
 var checkBlock = function(board, column, row, value) {
   var colCorner = 0.
@@ -94,17 +95,19 @@ var checkBlock = function(board, column, row, value) {
   return true;
 }
 
-console.log(checkBlock(board, 0, 0, 2));
+//console.log(checkBlock(board, 0, 0, 1));
 
-// var checkValue = function(board, column, row, value) {
-//   if(this.checkRow(board,row,value) &&
-//     this.checkCol(board,column,value) &&
-//     this.checkBlock(board,column,row,value)) {
-//       return true;
-//     } else {
-//       return false;
-//     }   
-// };
+var checkValue = function(board, column, row, value) {
+  if(checkRow(board,row,value) &&
+    checkCol(board,column,value) &&
+    checkBlock(board,column,row,value)) {
+      return true;
+    } 
+      return false; 
+    } 
+    
+
+//console.log(checkValue(board, 1, 1, 3));
 
 // var solvePuzzle = function(board, emptyPositions) {
 //   var limit = 9,
@@ -129,11 +132,27 @@ console.log(checkBlock(board, 0, 0, 2));
 //     i--;
 //     }
 //   }
-//   board.array.forEach(function(row) {
+//   board.forEach(function(row) {
 //     console.log(row.join());
 //   });
 //     return board;
 //   };
+
+//   console.log(solvePuzzle(board,emptyCells));
+
+var solve = function (board, value) {
+  var value = [1,2,3,4,5,6,7,8,9];
+  found=false;
+  for (var i=0; i<value.length,i++) {
+    for (var row=0; row<board.length; row++) {
+      for(var column=0; column<board[row].length; column++) {
+        checkValue(board, column, row, value);
+          if(found) {
+            
+          }
+      }
+    }
+}
 
 // var solveSudoku = function(board) {
 //   var parsedBoard = this.parsedBoard(board);
