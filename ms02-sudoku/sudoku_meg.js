@@ -31,51 +31,30 @@ for (var i = 0; i < 9; i++) {
 return array1;
 };
 
-var board = sudokuboard();
-//console.log(board);
+var sudoku = sudokuboard();
+console.log(sudoku);
 
-// var resultArr = board.map(function(x){return x.replace(/'-'/g, '0');});
-
-function saveEmptyPositions() {
-  var emptyPositions = [];
-  for (var i=0; i<board.length; i++) {
-    for (var j=0; j<board[i].length; j++) {
-      if (board[i][j] === '-') {
-        emptyPositions.push([i,j]);
-      }
-    }
-  }
-  return emptyPositions;
-};
-
-var emptyCells = saveEmptyPositions();
-//console.log(emptyCells);
-
-var checkRow = function(board,row,value) {
-  for (var row=0; row<board.length; row++) {
-    for (var j=0; j<board[row].length; j++) {
-      if (board[row][j] === value) {
+var checkRow = function(sudoku,row,value) {
+    for (var j=0; j<sudoku[row].length; j++) {
+      if (sudoku[row][j] === value) {
         return false;
     }
     }
-  }
   return true;
-}
-//console.log(checkRow(board,0,1));
+  }
+// console.log(checkRow(sudoku,0,7));
 
-var checkCol = function(board, column, value) {
-  for (var j=0; j< board.length; j++) {
-    if (board[j][column] === value) {
+var checkCol = function(sudoku, column, value) {
+  for (var j=0; j< sudoku.length; j++) {
+    if (sudoku[j][column] === value) {
       return false;
     }
-    else {
-      return true;
-    }
   }
+      return true;
 }
-//console.log(checkCol(board,0,1))
+// console.log(checkCol(sudoku,0,7));
 
-var checkBlock = function(board, column, row, value) {
+var checkBlock = function(sudoku, column, row, value) {
   var colCorner = 0.
       rowCorner = 0,
       squareSize = 3;
@@ -86,77 +65,49 @@ var checkBlock = function(board, column, row, value) {
     rowCorner += squareSize;
   }
   for (var i = rowCorner; i<rowCorner + squareSize; i++) {
-    for (var j = colCorner; j<colCorner + squareSize; j++) {
-      if (board[i][j] === value) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-//console.log(checkBlock(board, 0, 0, 1));
-
-var checkValue = function(board, column, row, value) {
-  if(checkRow(board,row,value) &&
-    checkCol(board,column,value) &&
-    checkBlock(board,column,row,value)) {
-      return true;
-    } 
-      return false; 
-    } 
-    
-
-//console.log(checkValue(board, 1, 1, 3));
-
-// var solvePuzzle = function(board, emptyPositions) {
-//   var limit = 9,
-//     i, row, column, found;
-//   for(var i=0; i<emptyPositions.length;) {
-//     row = emptyPositions[i][0];
-//     column = emptyPositions[i][1];
-//     value = board[row][column] + 1;
-//     found = false;
-//   while (!found && value <= limit) {
-//     if (this.checkValue(board, column, row, value)) {
-//       found = true;
-//       board[row][column] = value;
-//       i++;
-//     }
-//     else {
-//       value++;
-//     }
-//   }
-//   if (!found) {
-//     board[row][column] = 0;
-//     i--;
-//     }
-//   }
-//   board.forEach(function(row) {
-//     console.log(row.join());
-//   });
-//     return board;
-//   };
-
-//   console.log(solvePuzzle(board,emptyCells));
-
-var solve = function (board, value) {
-  var value = [1,2,3,4,5,6,7,8,9];
-  found=false;
-  for (var i=0; i<value.length,i++) {
-    for (var row=0; row<board.length; row++) {
-      for(var column=0; column<board[row].length; column++) {
-        checkValue(board, column, row, value);
-          if(found) {
-            
+        for (var j = colCorner; j<colCorner + squareSize; j++) {
+            if (sudoku[i][j] === value) {
+              return false;
           }
+                
+       }
+      }
+      return true;
+    }
+
+
+// console.log(checkBlock(sudoku, 4, 3, 8));
+
+var current = [];
+var stack = [];
+function solve() {
+  
+  for (var i=0; i<sudoku.length;) {
+    for (var j=0;j<sudoku[i].length;) {
+      
+      for (number=1;number<10;number++) {
+        if (sudoku[i][j] === 0) {
+          if (checkRow(sudoku,i,number)===true && checkCol(sudoku,j,number)===true && checkBlock(sudoku,j,i,number)===true) {
+            sudoku[i][j] = number;
+            stack.push([i,j]);
+            console.log("stack", stack);
+            number=0;
+          }
+          else {
+            if (number>8) {
+              var current = [];
+              sudoku[i][j]=0;
+              current = stack.pop();
+              console.log("current", current);
+      }
       }
     }
+      }
+      j++;
+    }
+    i++;
+  }
+  return sudoku;
 }
 
-// var solveSudoku = function(board) {
-//   var parsedBoard = this.parsedBoard(board);
-//   var emptyPositions = this.saveEmptyPositions(parsedBoard);
-
-//   return this.solvePuzzle(parsedBoard, emptyPositions);
-// };
+console.log(solve());
