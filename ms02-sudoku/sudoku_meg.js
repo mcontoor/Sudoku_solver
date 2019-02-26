@@ -34,6 +34,21 @@ return array1;
 var sudoku = sudokuboard();
 console.log(sudoku);
 
+function saveEmptyPositions() {
+  var emptyPositions = [];
+  for (var i=0; i<sudoku.length; i++) {
+    for (var j=0; j<sudoku[i].length; j++) {
+      if (sudoku[i][j] === 0) {
+        emptyPositions.push([i,j]);
+      }
+    }
+  }
+  return emptyPositions;
+};
+
+var emptyCells = saveEmptyPositions();
+//console.log(emptyCells);
+
 var checkRow = function(sudoku,row,value) {
     for (var j=0; j<sudoku[row].length; j++) {
       if (sudoku[row][j] === value) {
@@ -77,29 +92,71 @@ var checkBlock = function(sudoku, column, row, value) {
 
 
 // console.log(checkBlock(sudoku, 4, 3, 8));
+// var curr = [];
+// var stack = [];
+// function solve() {
+//   for (var i=0; i<emptyCells.length;) {
+//     var row = emptyCells[i][0];
+//     var col = emptyCells[i][1];
+//       for (number=1;number<10;number++) {
+//         if (sudoku[row][col] === 0) {
+//           if (checkRow(sudoku,row,number)===true && checkCol(sudoku,col,number)===true && checkBlock(sudoku,col,row,number)===true) {
+//             sudoku[row][col] = number;
+//             stack.push([row,col]);
+//             console.log("stack", stack);
+//             console.log("if", sudoku[row][col]);
+//             number=0;
+//           }
+//           else if (number>8) {
+//               sudoku[row][col]=0;
+//               curr = stack.pop();
+//               row = curr[0];
+//               col = curr[1];
+//               number = sudoku[row][col];
+//               sudoku[row][col]=0;
+//               // console.log("pop",row, col);
+              
+//       }
+//       else {
+//         i--;
+//         }
+//       }
+//     }
+//     i++;
+//       }
+  
+  
+//     return sudoku;
+//   }
 
-var current = [];
+
+// console.log(solve());
+
+
+var curr = [];
 var stack = [];
 function solve() {
   
   for (var i=0; i<sudoku.length;) {
     for (var j=0;j<sudoku[i].length;) {
-      
       for (number=1;number<10;number++) {
         if (sudoku[i][j] === 0) {
           if (checkRow(sudoku,i,number)===true && checkCol(sudoku,j,number)===true && checkBlock(sudoku,j,i,number)===true) {
             sudoku[i][j] = number;
             stack.push([i,j]);
             console.log("stack", stack);
+            console.log("if", sudoku[i][j]);
             number=0;
           }
-          else {
-            if (number>8) {
-              var current = [];
+          else if (number>8) {
+              console.log("else", sudoku[i][j]);
               sudoku[i][j]=0;
-              current = stack.pop();
-              console.log("current", current);
-      }
+              i,curr = stack.pop();
+              j = curr[1];
+              number = sudoku[i][j];
+              sudoku[i][j]=0;
+              console.log("pop",i, j);
+              
       }
     }
       }
